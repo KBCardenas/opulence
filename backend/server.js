@@ -11,23 +11,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-connectDB();
+const startServer = async () => {
+    await connectDB(); // Espera la conexión a la base de datos
 
-app.use('/api/users', userRoutes);
+    app.use('/api/users', userRoutes);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+    const PORT = process.env.PORT || 5000;
+    const server = app.listen(PORT, () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
 
-// Manejo de cierre gracioso
-process.on('SIGINT', () => {
-    console.log('Cerrando el servidor...');
-    server.close(() => {
-        console.log('Servidor cerrado.');
-        mongoose.connection.close(false, () => {
-            console.log('Conexión a MongoDB cerrada.');
-            process.exit(0);
+    // Manejo de cierre gracioso
+    process.on('SIGINT', () => {
+        console.log('Cerrando el servidor...');
+        server.close(() => {
+            console.log('Servidor cerrado.');
+            mongoose.connection.close(false, () => {
+                console.log('Conexión a MongoDB cerrada.');
+                process.exit(0);
+            });
         });
     });
-});
+};
+
+startServer(); // Llama a la función para iniciar el servidor

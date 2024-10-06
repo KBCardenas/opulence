@@ -11,7 +11,7 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 
 // Cerrar Sesion
-router.post('/logout', logoutUser);
+router.post('/logout', userController.logoutUser);
 
 // Recuperación de contraseña
 router.post('/forgot-password', userController.forgotPassword);
