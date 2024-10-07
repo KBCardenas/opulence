@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const valoracionSchema = new Schema({
+    usuario: { type: Schema.Types.ObjectId, ref: 'User' },
+    estrellas: { type: Number, min: 1, max: 5, required: true },
+    comentario: { type: String, required: true, maxlength: 500 },
+    fecha: { type: Date, default: Date.now }
+});
+
 const productSchema = new Schema({
     nombre: { 
         type: String, 
@@ -16,22 +23,23 @@ const productSchema = new Schema({
     },
     precio: { 
         type: Number, 
-        required: true 
-    },
-    vendedor_id: { 
-        type: Schema.Types.ObjectId, ref: 'User', required: true 
+        required: true,
+        min: 0 
     },
     stock: { 
         type: Number, 
-        required: true 
+        required: true,
+        min: 0
+    },
+    stockBajo: { 
+        type: Boolean, 
+        default: false 
     },
     fotos: { 
         type: [String] 
     },
-    valoraciones: { 
-        type: Schema.Types.Mixed, 
-        default: {} 
-    },
+    etiquetas: [{ type: String }],
+    valoraciones: [valoracionSchema],
     ventasTotales: { 
         type: Number, 
         default: 0 

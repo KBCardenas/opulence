@@ -1,41 +1,32 @@
 const express = require('express');
 const userController = require('../controllers/userController');
+const authContoller = require('../controllers/authController');
+const adminController = require('../controllers/adminController');
 const authenticate = require('../middlewares/authMiddleware'); // Importar el middleware
-const isAdmin = require('../middlewares/adminMiddleware');
+const isAdmin = require('../middlewares/adminMiddleware'); // Middleware de admin (si es necesario)
 const router = express.Router();
 
-// Registro de usuarios
-router.post('/register', userController.registerUser);
-
-// Inicio de sesión
-router.post('/login', userController.loginUser);
-
-// Cerrar Sesion
-router.post('/logout', userController.logoutUser);
-
-// Recuperación de contraseña
-router.post('/forgot-password', userController.forgotPassword);
-router.post('/reset-password', userController.resetPassword);
+// Gestion de usuario
+router.post('/register', authContoller.registerUser);
+router.post('/login', authContoller.loginUser);
+router.post('/forgot-password', authContoller.forgotPassword);
+router.post('/reset-password', authContoller.resetPassword);
 
 // Gestión de perfil
-router.get('/me', authenticate, userController.getUserById); // Ruta protegida
-router.put('/me', authenticate, userController.updateUser); // Ruta protegida
-router.delete('/me', authenticate, userController.deleteAccount); // Ruta protegida
+router.delete('/eliminar-cuenta', authenticate, userController.deleteAccount);
+router.put('/editar-perfil', authenticate, userController.updateUser);
+router.post('/change-password', authenticate, userController.changePassword);
+router.post('/actualizar-info-pago', authenticate, userController.updatePaymentInfo);
+router.delete('/eliminar-info-pago', authenticate, userController.deletePaymentInfo);
 
-// Gestión de roles
-router.post('/convert-to-seller', authenticate, userController.convertToSeller); // Ruta protegida
-router.post('/deactivate-seller', authenticate, userController.deactivateSeller); // Ruta protegida
-router.put('/make-admin', authenticate, isAdmin, userController.makeAdmin);
-
-// Solicitud para ser vendedor (cualquier usuario autenticado puede hacer esta solicitud)
-router.post('/request-seller', authenticate, userController.requestSeller);
-
-// Aprobación o rechazo de solicitud de vendedor (solo administradores)
-router.put('/approve-seller/', authenticate, isAdmin, userController.approveSeller);
-router.put('/reject-seller/', authenticate, isAdmin, userController.rejectSeller);
-
-// Listar usuarios (solo para administradores, si es necesario)
-router.get('/', authenticate, isAdmin, userController.listUsers); // Ruta protegida
-router.get('/search', authenticate, isAdmin, userController.searchUser); // Ruta protegida
+// Rutas de administración
+router.get('/usuarios', isAdmin, adminController.listUsers);
+router.put('/modificar-rol', isAdmin, adminController.updateUserRole);
+router.delete('/eliminar-usuario', isAdmin, adminController.deleteUser);
+router.get('/listar-productos', isAdmin, adminController.listProducts);
+router.post('/agregar-producto', isAdmin, adminController.addProduct);
+router.put('/editar-producto', isAdmin, adminController.updateProduct); // Ruta para editar producto
+router.delete('/eliminar-producto', isAdmin, adminController.deleteProduct);
+router.get('/estadisticas', isAdmin, adminController.getStatistics);
 
 module.exports = router;
