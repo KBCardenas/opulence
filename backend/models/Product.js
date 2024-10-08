@@ -18,8 +18,8 @@ const productSchema = new Schema({
         required: true 
     },
     categoria: { 
-        type: String, 
-        required: true 
+        type: [String], 
+        default: []
     },
     precio: { 
         type: Number, 
@@ -36,9 +36,13 @@ const productSchema = new Schema({
         default: false 
     },
     fotos: { 
-        type: [String] 
+        type: [String],
+        default: [] 
     },
-    etiquetas: [{ type: String }],
+    etiquetas: { 
+        type: [String],
+        default: []
+    },
     valoraciones: [valoracionSchema],
     ventasTotales: { 
         type: Number, 
@@ -55,6 +59,10 @@ const productSchema = new Schema({
     vistas: { 
         type: Number, 
         default: 0 
+    },
+    ventas: {
+        type: Number,
+        default: 0
     }
 });
 

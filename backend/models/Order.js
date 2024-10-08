@@ -4,12 +4,26 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     comprador_id: { 
         type: Schema.Types.ObjectId, 
-        ref: 'User', required: true 
-    },
-    productos: { 
-        type: [Schema.Types.Mixed], 
+        ref: 'User', 
         required: true 
     },
+    productos: [
+        {
+            producto_id: { 
+                type: Schema.Types.ObjectId, 
+                ref: 'Product', 
+                required: true 
+            },
+            cantidad: { 
+                type: Number, 
+                required: true 
+            },
+            precioUnitario: { 
+                type: Number, 
+                required: true 
+            }
+        }
+    ],
     total: { 
         type: Number, 
         required: true 
@@ -20,8 +34,9 @@ const orderSchema = new Schema({
     },
     estado: { 
         type: String, 
+        enum: ['pendiente', 'enviado', 'entregado', 'cancelado'], 
         default: 'pendiente' 
-    }, // pendiente, enviado, entregado, cancelado
+    }, 
     direccionEntrega: { 
         type: String, 
         required: true 
@@ -29,7 +44,7 @@ const orderSchema = new Schema({
     metodoPago: { 
         type: String, 
         required: true 
-    },
+    }, 
     transaccionID: { 
         type: String, 
         required: true 
