@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 // Registrar usuario
 exports.registerUser = async (req, res) => {
     try {
-        const { nombre, apellido, correo, telefono, direccion, cedula, contrasena } = req.body;
+        const { nombre, apellido, correo, telefono, direccion, contrasena } = req.body;
 
         // Verificar si el correo ya está en uso
         const existingUser = await User.findOne({ correo });
@@ -37,7 +37,6 @@ exports.registerUser = async (req, res) => {
             correo,
             telefono,
             direccion,
-            cedula,
             contrasena: hashedPassword,
         });
 

@@ -12,10 +12,10 @@ const { upload } = require('../config/cloudinary');
 const router = express.Router();
 
 // Gestión de usuario
-router.post('/register', authController.registerUser); // Verifica que registerUser exista
-router.post('/login', authController.loginUser); // Verifica que loginUser exista
-router.post('/forgot-password', authController.forgotPassword); // Verifica que forgotPassword exista
-router.post('/reset-password', authController.resetPassword); // Verifica que resetPassword exista
+router.post('/register', authController.registerUser); // Ruta para Registrar Usuario
+router.post('/login', authController.loginUser); 
+router.post('/forgot-password', authController.forgotPassword); 
+router.post('/reset-password', authController.resetPassword);
 
 // Gestión de perfil
 router.delete('/eliminar-cuenta', authenticate, userController.deleteAccount);
