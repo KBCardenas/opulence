@@ -16,6 +16,10 @@ const startServer = async () => {
 
     app.use('/api', routes);
 
+    app.use((req, res) => {
+        res.status(404).send('Página no encontrada');
+    });
+
     const PORT = process.env.PORT || 5000;
     const server = app.listen(PORT, () => {
         console.log(`Servidor corriendo en http://localhost:${PORT}`);

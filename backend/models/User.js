@@ -32,14 +32,7 @@ const userSchema = new mongoose.Schema({
     esAdmin: {
         type: Boolean, 
         default: false // El valor por defecto será `false` para los usuarios regulares
-    },
-    informacionPago: [ // Cambiado para ser un arreglo de objetos
-        {
-            tipo: { type: String, required: true }, // Tipo de método de pago (ej. tarjeta, PayPal)
-            numero: { type: String, required: true } // Número de la tarjeta o método de pago
-            // Agrega otros campos si es necesario
-        }
-    ]
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);

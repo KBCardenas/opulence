@@ -18,11 +18,9 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password', authController.resetPassword);
 
 // Gestión de perfil
-router.delete('/eliminar-cuenta', authenticate, userController.deleteAccount);
+router.get('/obtener-usuario', authenticate, userController.getUserInfo);
 router.put('/editar-perfil', authenticate, userController.updateUser);
-router.post('/change-password', authenticate, userController.changePassword);
-router.post('/actualizar-info-pago', authenticate, userController.updatePaymentInfo);
-router.delete('/eliminar-info-pago', authenticate, userController.deletePaymentInfo);
+router.delete('/eliminar-cuenta', authenticate, userController.deleteAccount);
 
 // Rutas de administración
 router.get('/usuarios', authenticate, isAdmin, adminController.listUsers);

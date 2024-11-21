@@ -52,7 +52,7 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-// Obtener estadisticas
+// Obtener estadísticas
 exports.getStatistics = async (req, res) => {
     try {
         // Cantidad total de usuarios
@@ -113,11 +113,6 @@ exports.getStatistics = async (req, res) => {
             { $limit: 5 }
         ]);
 
-        // Pedidos por método de pago
-        const paymentMethodUsage = await Order.aggregate([
-            { $group: { _id: "$metodoPago", count: { $sum: 1 } } }
-        ]);
-
         // Usuarios con más gastos
         const topSpendingUsers = await Order.aggregate([
             { $group: { _id: "$comprador_id", totalGastado: { $sum: "$total" } } },
@@ -141,6 +136,13 @@ exports.getStatistics = async (req, res) => {
             { $match: { 'compras.0': { $exists: false } } } // Usuarios sin compras recientes
         ]);
 
+        // Método de pago más usado
+        const paymentMethodUsage = await Order.aggregate([
+            { $group: { _id: "$metodoPago", count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+
+        // Responder con todas las estadísticas
         res.json({
             userCount,
             productCount,
@@ -162,3 +164,5 @@ exports.getStatistics = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener estadísticas' });
     }
 };
+
+

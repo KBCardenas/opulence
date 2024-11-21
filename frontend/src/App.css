@@ -1,42 +1,121 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+:root {
+    --negro: #000;
+    --blanco: #fff;
+    --amarillo: #ffd166;
+    --gris-oscuro: #333333;
+    --gris-claro: #cccccc;
+    --rosa: #ff6b6b;
   }
-  to {
-    transform: rotate(360deg);
+  
+  body {
+    font-family: 'montserrat', sans-serif!important;
+    overflow-x: hidden;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  /* Colores para el texto */
+  .negrotxt{
+    color: var(--negro);
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .blancotxt{
+    color: var(--blanco);
+  }
 
-.read-the-docs {
-  color: #888;
-}
+  .amarillotxt{
+    color: var(--amarillo);
+  }
+
+  .goscurotxt{
+    color: var(--gris-oscuro);
+  }
+
+  .gclarotxt{
+    color: var(--gris-claro);
+  }
+
+  .rosatxt {
+    color: var(--rosa);
+  }
+
+
+  /* Colores para el fondo */  
+  .negrobg{
+    background-color: var(--negro);
+  }
+
+  .blancobg{
+    background-color: var(--blanco);
+  }
+
+  .amarillobg{
+    background-color: var(--amarillo);
+  }
+
+  .goscurobg{
+    background-color: var(--gris-oscuro);
+  }
+
+  .gclarobg{
+    background-color: var(--gris-claro);
+  }
+
+  .rosabg {
+    background-color: var(--rosa);
+  }
+
+
+  /* Botones */
+
+  .btn-opu {
+    background-color: var(--gris-claro);
+  }
+  
+  .btn-opu:hover {
+    background-color: var(--amarillo);
+  }
+
+  .i-opu:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--amarillo);
+    border: 1px solid var(--amarillo);
+  }
+
+  .navbar-brand img {
+    width: 70px;
+  }
+
+  .navbar {
+    background-color: var(--gris-oscuro)!important;
+  }
+  
+  .navbar-collapse a {
+    color: var(--blanco);
+  }
+  .navbar-collapse a:hover {
+    color: var(--amarillo);
+  }
+  
+  .bi-list {
+    color: var(--amarillo);
+    font-size: 30px;
+  }
+  
+  .bi-search, .bi-person-circle, .bi-cart-fill {
+    color: var(--amarillo);
+    font-size: 30px;
+  }
+
+  @media (max-width: 990px) {
+    .nav1 {
+        text-align: center;
+    }
+
+    .nav2 {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: row;
+    }
+
+
+  }

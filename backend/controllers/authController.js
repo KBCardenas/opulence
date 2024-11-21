@@ -28,7 +28,7 @@ exports.registerUser = async (req, res) => {
         }
 
         // Hashear la contraseña usando hashSync
-        const hashedPassword = bcrypt.hashSync(contrasena, 10); // Hashear la contraseña
+        const hashedPassword = bcrypt.hashSync(contrasena, 10);
 
         // Crear un nuevo usuario
         const newUser = new User({
@@ -41,8 +41,17 @@ exports.registerUser = async (req, res) => {
         });
 
         await newUser.save();
-        console.log(newUser); // Verificar que la contraseña se guarde correctamente
-        res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
+        console.log(newUser); // Verificar que el usuario se guarde correctamente
+
+        // Crear el token JWT
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Cambia '1h' según sea necesario
+
+        // Enviar la respuesta con el token y el mensaje
+        res.status(201).json({
+            message: 'Usuario creado exitosamente',
+            user: newUser,
+            token: token, // Incluye el token en la respuesta
+        });
     } catch (error) {
         console.error(error); // Agregar logging para verificar el error
         res.status(400).json({ error: error.message });
@@ -75,7 +84,7 @@ exports.loginUser = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, esAdmin: user.esAdmin }, // Incluir si es administrador
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '3h' }
         );
 
         // Retornar el token y los datos del usuario
@@ -114,9 +123,10 @@ exports.forgotPassword = async (req, res) => {
             from: process.env.EMAIL_USER, // Enviar desde el correo configurado
             to: correo, // Correo del usuario
             subject: 'Restablecer contraseña',
+            subject: 'Restablecer contraseña',
             text: `Hola ${user.nombre},\n\nHaga clic en el siguiente enlace para restablecer su contraseña:\n\n` +
-                `http://localhost:3000/reset-password/${resetToken}\n\n` +
-                `Este enlace será válido por una hora.\n\nSi no solicitaste restablecer tu contraseña, puedes ignorar este correo.\n`
+            `http://localhost:5173/reset-password/${resetToken}\n\n` + // Cambia el puerto al del frontend
+            `Este enlace será válido por una hora.\n\nSi no solicitaste restablecer tu contraseña, puedes ignorar este correo.\n`
         };
 
         // Enviar el correo
